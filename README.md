@@ -1,6 +1,18 @@
 # 📖 DiffWhisperer: AI-Powered Code Review Storyteller
 **Built for the Google Gemma 4 Challenge on DEV.**
 
+```text
+    /═══\
+   │ o─o │     █▀▀▄ ░▀░ █▀▀ █▀▀ █ █ █ █░█ ░▀░ █▀▀ █▀▀█ █▀▀ █▀▀█ █▀▀ █▀▀█
+   │o─o─o│     █░░█ ▀█▀ █▀▀ █▀▀ ▀▄▀▄▀ █▀█ ▀█▀ ▀▀▄ █░░█ █▀▀ █▄▄▀ █▀▀ █▄▄▀
+   │ o─o │     ▀▀▀░ ▀▀▀ ▀░░ ▀░░ ░▀░▀░ ▀░▀ ▀▀▀ ▀▀▀ █▀▀▀ ▀▀▀ ▀░▀▀ ▀▀▀ ▀░▀▀
+    \═══/
+     \ \       Version : 1.0.0 (DEV Challenge Submission)
+      '-'      Engine  : Gemma 4 Reasoning Orchestrator
+               Privacy : Shield Active (Local-First)
+               Status  : Ready
+```
+
 > "Stop reading dry diffs. Start reading stories."
 
 **DiffWhisperer** is a professional-grade CLI tool that leverages the reasoning capabilities of **Gemma 4** to transform cryptic git diff outputs into high-level architectural narratives. It bridges the gap between "what changed" and "why it matters," acting as a virtual Senior Architect on your team.

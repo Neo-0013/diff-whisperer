@@ -38,8 +38,8 @@ Built with a "Zero-Crash" philosophy. The tool features:
 
 ### 1. Clone & Setup
 ```bash
-git clone https://github.com/your-username/diff-whisperer.git
-cd diff-whisperer
+git clone https://github.com/Neo-0013/diff-narrator.git
+cd diff-narrator
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt

@@ -19,6 +19,30 @@
 
 ---
 
+## ⚡ Quick Testing & Demo (For Judges & Friends)
+To make evaluating and testing as simple as possible, a unified test and demo runner is included in the project root:
+
+1. **Activate Environment & Install Requirements**:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   pip install -r requirements.txt
+   ```
+
+2. **Run the One-Command Demo**:
+   ```bash
+   python test.py
+   ```
+   **What `test.py` does automatically**:
+   * Runs the complete suite of unit and integration tests.
+   * Auto-detects local Git status and environment settings.
+   * Simulates a Git diff by staging a temporary file with a mock API key.
+   * Runs the Privacy Shield Offline Dry-Run (to show local secret redaction).
+   * Runs the Live AI Narration and displays the story and Risk Radar (if `GEMMA_API_KEY` is present).
+   * Reverts all changes to leave your working directory completely clean.
+
+---
+
 ## 🌟 Key Features
 
 ### 🕵️ Pre-Flight Privacy Shield
@@ -101,7 +125,16 @@ We’re just getting started. Here’s what we’re planning to add to the DiffW
 ---
 
 ## 🧪 Testing
-We believe in 100% logic reliability. Run the test suite with:
+We believe in 100% logic reliability. You can run individual tests or the entire demo:
+
+### Unified Test Runner (Recommended)
+This runs the full test suite and also demonstrates the Privacy Shield and AI features end-to-end:
+```bash
+python test.py
+```
+
+### Pytest Execution
+To run only the automated unit/integration test suite:
 ```bash
 python -m pytest
 ```

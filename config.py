@@ -4,9 +4,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 API_KEY = os.getenv("GEMMA_API_KEY")
-if not API_KEY:
-    # Use a clear error message if the key is missing
-    raise RuntimeError("GEMMA_API_KEY not found in environment or .env file.")
+
 
 MAX_DIFF_LENGTH = 15000  # Max characters for the diff (fallback for token counting)
 

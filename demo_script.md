@@ -1,14 +1,14 @@
-# 🎬 Diff-Narrator: 60-Second Demo Script
+# 🎬 DiffWhisperer: 60-Second Demo Script
 
 Follow this script to record a professional, high-impact demo for your submission.
 
 ## 🕒 [0:00 - 0:10] - The Hook
-**Action**: Open your terminal in the `diff-narrator` repo. Ensure you have some staged changes.
+**Action**: Open your terminal in the `diff-whisperer` repo. Ensure you have some staged changes.
 **Command**: 
 ```bash
 python main.py narrate --persona senior
 ```
-**Voiceover/Caption**: "Turn cryptic git diffs into architectural stories with Diff-Narrator."
+**Voiceover/Caption**: "Turn cryptic git diffs into architectural stories with DiffWhisperer."
 
 ## 🕒 [0:10 - 0:25] - Deep Reasoning & Resilience
 **Action**: Run the deep mode. Let the progress spinners show.
@@ -41,7 +41,7 @@ python main.py chat --persona senior
 ```bash
 python main.py list-personas
 ```
-**Voiceover/Caption**: "Diff-Narrator. Powered by Gemma 4. Storytelling for Developers."
+**Voiceover/Caption**: "DiffWhisperer. Powered by Gemma 4. Storytelling for Developers."
 
 ---
 

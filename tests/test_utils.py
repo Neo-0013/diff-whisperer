@@ -25,14 +25,8 @@ def test_extract_json_with_markdown():
 def test_extract_json_with_trailing_comma():
     # This tests the robust regex/cleaning capability
     text = '{"story": "Trailing comma", "risks": [],}'
-    # Our extract_json_from_text might still fail with standard json.loads if there is a trailing comma inside a list/object.
-    # We add a simple fix in utils.py if needed, but let's see if it passes.
-    # Actually, standard json.loads(text) fails on trailing commas.
-    try:
-        result = extract_json_from_text(text)
-        assert result["story"] == "Trailing comma"
-    except Exception:
-        pytest.skip("Standard json.loads does not handle trailing commas; requires manual regex cleaning.")
+    result = extract_json_from_text(text)
+    assert result["story"] == "Trailing comma"
 
 def test_extract_json_with_prefix_noise():
     text = 'ANALYSIS_START {"story": "Noise test"} ANALYSIS_END'
@@ -41,5 +35,14 @@ def test_extract_json_with_prefix_noise():
 
 def test_invalid_json():
     text = "This is not json at all."
-    with pytest.raises(ValueError, match="No valid JSON object found in text"):
+    with pytest.raises(ValueError, match="Failed to extract valid JSON"):
         extract_json_from_text(text)
+
+def test_extract_json_with_invalid_escape():
+    # LLMs frequently output unescaped backslashes in regex or paths (like \s, \d, \p) which are invalid JSON escape sequences
+    text = '{"story": "We modified regex \\s and path C:\\Users", "risks": [], "improvements": []}'
+    result = extract_json_from_text(text)
+    assert "\\s" in result["story"]
+    assert "C:\\Users" in result["story"]
+
+

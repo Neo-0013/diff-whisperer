@@ -1,9 +1,9 @@
-# 📖 Diff-Narrator: AI-Powered Code Review Storyteller
+# 📖 DiffWhisperer: AI-Powered Code Review Storyteller
 **Built for the Google Gemma 4 Challenge on DEV.**
 
 > "Stop reading dry diffs. Start reading stories."
 
-**Diff-Narrator** is a professional-grade CLI tool that leverages the reasoning capabilities of **Gemma 4** to transform cryptic git diff outputs into high-level architectural narratives. It bridges the gap between "what changed" and "why it matters," acting as a virtual Senior Architect on your team.
+**DiffWhisperer** is a professional-grade CLI tool that leverages the reasoning capabilities of **Gemma 4** to transform cryptic git diff outputs into high-level architectural narratives. It bridges the gap between "what changed" and "why it matters," acting as a virtual Senior Architect on your team.
 
 ---
 
@@ -13,7 +13,7 @@
 Security first. Before any data leaves your machine, a local regex-based scanner redacts PII, API keys, and secrets. Use `--dry-run` to see exactly what gets redacted before any AI call is made.
 
 ### 🧠 Multi-Stage Reasoning Pipeline (`--deep`)
-Beyond simple summarization. In deep mode, Diff-Narrator performs a 3-stage analysis:
+Beyond simple summarization. In deep mode, DiffWhisperer performs a 3-stage analysis:
 1. **Technical Extraction**: Summarizes the "essence" of the logic shifts.
 2. **Security Audit**: Analyzes the diff for architectural risks and blind spots.
 3. **Persona Synthesis**: Combines the findings into a tailored narrative.
@@ -38,8 +38,8 @@ Built with a "Zero-Crash" philosophy. The tool features:
 
 ### 1. Clone & Setup
 ```bash
-git clone https://github.com/your-username/diff-narrator.git
-cd diff-narrator
+git clone https://github.com/your-username/diff-whisperer.git
+cd diff-whisperer
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
@@ -78,13 +78,13 @@ python main.py narrate --dry-run
 
 ---
 
-## 🔮 Roadmap: The Future of Diff-Narrator
-We’re just getting started. Here’s what we’re planning to add to the Diff-Narrator ecosystem:
+## 🔮 Roadmap: The Future of DiffWhisperer
+We’re just getting started. Here’s what we’re planning to add to the DiffWhisperer ecosystem:
 - 🤖 **PR Comment Bot**: Direct GitHub Action integration to post narratives as PR comments automatically.
 - 💬 **Team Hub**: Real-time Slack and Discord alerts with daily "Code Story" summaries for the whole team.
 - 🧬 **Project DNA**: RAG-lite context awareness to help Gemma understand your entire codebase, not just the current diff.
 - 📊 **Impact Graphs**: Automatic generation of Mermaid.js dependency impact diagrams for every change.
-- 🌐 **Diff-Narrator Web**: A sleek, full-stack Web UI version for architectural visualization.
+- 🌐 **DiffWhisperer Web**: A sleek, full-stack Web UI version for architectural visualization.
 
 ---
 

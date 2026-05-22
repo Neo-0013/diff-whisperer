@@ -4,6 +4,15 @@ import json
 import typer
 import sys
 from datetime import datetime
+
+# Force terminal output to UTF-8 on Windows to avoid UnicodeEncodeErrors
+if sys.platform.startswith("win"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
+    except AttributeError:
+        pass
+
 from google import genai
 from google.api_core import exceptions as google_exceptions
 from git import Repo, exc as git_exceptions
@@ -21,15 +30,26 @@ from models import AnalysisResponse
 from utils import extract_json_from_text
 from orchestrator import ReasoningOrchestrator
 
-# --- Fail-Fast Validation ---
-if not API_KEY or API_KEY == "[REDACTED]":
-    print("[bold red]ERROR:[/bold red] GEMMA_API_KEY is missing. Please set it in your .env file.")
-    sys.exit(1)
-
-client = genai.Client(api_key=API_KEY)
-orchestrator = ReasoningOrchestrator(client)
 console = Console()
-app = typer.Typer(help="Diff-Narrator: AI-Powered Code Review Storyteller")
+app = typer.Typer(help="DiffWhisperer: AI-Powered Code Review Storyteller")
+
+client = None
+orchestrator = None
+
+def init_client():
+    global client, orchestrator
+    if not API_KEY or API_KEY == "[REDACTED]" or API_KEY == "your_google_api_key_here":
+        console.print("[bold red]ERROR:[/bold red] GEMMA_API_KEY is missing. Please set it in your .env file.")
+        raise typer.Exit(code=1)
+    
+    if client is None:
+        try:
+            client = genai.Client(api_key=API_KEY)
+            orchestrator = ReasoningOrchestrator(client)
+        except Exception as e:
+            console.print(f"[bold red]Failed to initialize Gemini Client:[/bold red] {e}")
+            raise typer.Exit(code=1)
+
 
 def get_git_diff(client=None, model_name=None, ignore_patterns=None, include_all=False):
     """Fetches the staged or unstaged diff and truncates it based on tokens if client is provided."""
@@ -43,9 +63,22 @@ def get_git_diff(client=None, model_name=None, ignore_patterns=None, include_all
                 if pattern.strip():
                     pathspecs.append(f":(exclude){pattern.strip()}")
         
+        # Check if HEAD exists (unborn repo check)
+        head_exists = False
+        try:
+            repo.head.commit
+            head_exists = True
+        except Exception:
+            pass
+
         # --all flag: combine staged and unstaged
         if include_all:
-            diff = repo.git.diff('HEAD', '--', *pathspecs)
+            if head_exists:
+                diff = repo.git.diff('HEAD', '--', *pathspecs)
+            else:
+                staged = repo.git.diff('--cached', '--', *pathspecs)
+                unstaged = repo.git.diff('--', *pathspecs)
+                diff = (staged + "\n" + unstaged).strip()
         else:
             diff = repo.git.diff('--cached', '--', *pathspecs)
             if not diff:
@@ -124,6 +157,8 @@ def narrate(
     dry_run: bool = typer.Option(False, "--dry-run", help="Show the redacted diff and exit without calling AI")
 ):
     """Analyze the current git diff and tell its story."""
+    if not dry_run:
+        init_client()
     selected_persona = PERSONAS.get(persona.lower(), PERSONAS["senior"])
     model_to_use = model or os.getenv("GEMMA_MODEL_31B", MODEL_31B)
     
@@ -159,7 +194,7 @@ def narrate(
         return
 
     console.print(Panel.fit(
-        f"[bold white]Diff-Narrator[/bold white]\n[dim]Persona: {selected_persona['name']}[/dim]", 
+        f"[bold white]DiffWhisperer[/bold white]\n[dim]Persona: {selected_persona['name']}[/dim]", 
         border_style="cyan"
     ))
 
@@ -191,7 +226,7 @@ def narrate(
         filename = f"story_{timestamp}.md"
         try:
             with open(filename, "w") as f:
-                f.write(f"# Diff-Narrator Story\n\n## Persona: {selected_persona['name']}\n")
+                f.write(f"# DiffWhisperer Story\n\n## Persona: {selected_persona['name']}\n")
                 f.write(f"## Model: {model_to_use}\n")
                 f.write(f"## Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
                 f.write(analysis.get("story", ""))
@@ -214,6 +249,7 @@ def chat(
     include_all: bool = typer.Option(False, "--all", "-a", help="Include both staged and unstaged changes")
 ):
     """Enter an interactive chat session about your current git diff."""
+    init_client()
     selected_persona = PERSONAS.get(persona.lower(), PERSONAS["senior"])
     model_to_use = model or os.getenv("GEMMA_MODEL_31B", MODEL_31B)
     

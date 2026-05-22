@@ -16,6 +16,10 @@ def extract_json_from_text(text: str) -> dict:
     
     if start_index != -1 and end_index != -1:
         json_str = text[start_index:end_index+1]
+        # Clean trailing commas inside arrays and objects
+        json_str = re.sub(r',\s*([\]}])', r'\1', json_str)
+        # Fix invalid JSON escape sequences (unescaped backslashes)
+        json_str = re.sub(r'\\(?!["\\/bfnrt]|u[0-9a-fA-F]{4})', r'\\\\', json_str)
         try:
             return json.loads(json_str)
         except json.JSONDecodeError:
@@ -23,6 +27,10 @@ def extract_json_from_text(text: str) -> dict:
             
     # If all else fails, try loading the whole string
     try:
-        return json.loads(text)
+        cleaned_text = re.sub(r',\s*([\]}])', r'\1', text)
+        cleaned_text = re.sub(r'\\(?!["\\/bfnrt]|u[0-9a-fA-F]{4})', r'\\\\', cleaned_text)
+        return json.loads(cleaned_text)
     except json.JSONDecodeError as e:
         raise ValueError(f"Failed to extract valid JSON from LLM response: {e}\nResponse text: {text[:200]}...")
+
+

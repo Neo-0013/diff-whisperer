@@ -41,12 +41,35 @@ class PrivacyShield:
 
     def redact(self, text: str):
         """Redacts all found sensitive information from the text."""
-        # Sort findings by start position in reverse to avoid index shifting
-        sorted_findings = sorted(self.findings, key=lambda x: x['start'], reverse=True)
+        if not self.findings:
+            return text
+            
+        # Sort findings by start position ascending
+        sorted_findings = sorted(self.findings, key=lambda x: x['start'])
         
-        redacted_text = text
+        # Merge overlapping/nested intervals
+        merged = []
         for finding in sorted_findings:
-            redacted_text = redacted_text[:finding['start']] + "[REDACTED]" + redacted_text[finding['end']:]
+            if not merged:
+                merged.append({
+                    "start": finding["start"],
+                    "end": finding["end"]
+                })
+            else:
+                last = merged[-1]
+                if finding['start'] <= last['end']:
+                    # Overlap or nested
+                    last['end'] = max(last['end'], finding['end'])
+                else:
+                    merged.append({
+                        "start": finding["start"],
+                        "end": finding["end"]
+                    })
+                    
+        # Redact from right to left (reverse order of merged intervals)
+        redacted_text = text
+        for interval in reversed(merged):
+            redacted_text = redacted_text[:interval['start']] + "[REDACTED]" + redacted_text[interval['end']:]
         
         return redacted_text
 

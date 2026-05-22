@@ -77,7 +77,7 @@ class ReasoningOrchestrator:
     def run_fallback_pipeline(self, persona, diff_text):
         """Emergency fallback to 26B model if 31B fails."""
         fallback_model = os.getenv("GEMMA_MODEL_26B", MODEL_26B)
-        fallback_prompt = f"Analyze this git diff and return a JSON object with 'story', 'risks', and 'improvements'.\n\n<git_diff>\n{diff_text}\n</git_diff>"
+        fallback_prompt = f"Analyze this git diff and return a JSON object. Ensure the JSON strictly follows the schema with 'story', 'risks' (each with category, description, level), and 'improvements'.\n\n<git_diff>\n{diff_text}\n</git_diff>"
         response = self.generate_with_retry(fallback_model, persona["system_prompt"], fallback_prompt)
         data = extract_json_from_text(response.text)
         return AnalysisResponse(**data).model_dump()

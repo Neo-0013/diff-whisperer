@@ -14,7 +14,6 @@ if sys.platform.startswith("win"):
         pass
 
 from google import genai
-from google.api_core import exceptions as google_exceptions
 from git import Repo, exc as git_exceptions
 from rich.console import Console
 from rich.markdown import Markdown

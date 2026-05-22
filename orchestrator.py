@@ -1,7 +1,6 @@
 import time
 import json
 import os
-from google.api_core import exceptions as google_exceptions
 from models import AnalysisResponse
 from utils import extract_json_from_text
 from config import MODEL_31B, MODEL_26B

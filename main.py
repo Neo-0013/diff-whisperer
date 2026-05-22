@@ -123,6 +123,25 @@ def get_git_diff(client=None, model_name=None, ignore_patterns=None, include_all
         console.print(f"[bold red]Unexpected Error accessing git repo:[/bold red] {e}")
         raise typer.Exit(code=1)
 
+def print_welcome_banner(persona_name: str, model_name: str):
+    """Prints a beautiful neofetch-style welcome banner."""
+    banner = f"""
+[cyan]    /═══\\    [/cyan]
+[cyan]   │ [yellow]o─o[/yellow] │   [/cyan]  [bold white]█▀▀▄ ░▀░ █▀▀ █▀▀ █ █ █ █░█ ░▀░ █▀▀ █▀▀█ █▀▀ █▀▀█ █▀▀ █▀▀█[/bold white]
+[cyan]   │[yellow]o─o─o[/yellow]│   [/cyan]  [bold white]█░░█ ▀█▀ █▀▀ █▀▀ ▀▄▀▄▀ █▀█ ▀█▀ ▀▀▄ █░░█ █▀▀ █▄▄▀ █▀▀ █▄▄▀[/bold white]
+[cyan]   │ [yellow]o─o[/yellow] │   [/cyan]  [bold white]▀▀▀░ ▀▀▀ ▀░░ ▀░░ ░▀░▀░ ▀░▀ ▀▀▀ ▀▀▀ █▀▀▀ ▀▀▀ ▀░▀▀ ▀▀▀ ▀░▀▀[/bold white]
+[cyan]    \\═══/    [/cyan]
+[cyan]     \\ \\     [/cyan]  [bold cyan]Version :[/bold cyan] [white]1.0.0 (DEV Challenge Submission)[/white]
+[cyan]      '-'    [/cyan]  [bold cyan]Persona :[/bold cyan] [white]{persona_name}[/white]
+               [bold cyan]Model   :[/bold cyan] [white]{model_name}[/white]
+               [bold cyan]Engine  :[/bold cyan] [white]Gemma 4 Reasoning Orchestrator[/white]
+               [bold cyan]Privacy :[/bold cyan] [green]Shield Active (Local-First)[/green]
+               [bold cyan]Status  :[/bold cyan] [green]Ready[/green]
+"""
+    console.print(banner)
+
+
+
 def print_dashboard(analysis):
     """Displays a professional dashboard with the review results."""
     console.print(Panel(Markdown(analysis.get("story", "No story generated.")), title="[bold cyan]The Narrative[/bold cyan]", border_style="cyan"))
@@ -193,10 +212,7 @@ def narrate(
         console.print("[dim]Dry run complete. No AI calls were made.[/dim]")
         return
 
-    console.print(Panel.fit(
-        f"[bold white]DiffWhisperer[/bold white]\n[dim]Persona: {selected_persona['name']}[/dim]", 
-        border_style="cyan"
-    ))
+    print_welcome_banner(selected_persona['name'], model_to_use)
 
     with Progress(
         SpinnerColumn(),
@@ -258,11 +274,8 @@ def chat(
     if ignore:
         ignore_list.extend(ignore.split(","))
 
-    console.print(Panel.fit(
-        f"[bold white]Diff-Chat REPL[/bold white]\n[dim]Persona: {selected_persona['name']}[/dim]\n"
-        "Type 'exit' or 'quit' to end the session.", 
-        border_style="magenta"
-    ))
+    print_welcome_banner(selected_persona['name'], model_to_use)
+    console.print("[dim]Type 'exit' or 'quit' to end the session.[/dim]\n")
     
     diff_text = get_git_diff(client, model_to_use, ignore_list, include_all)
     if not diff_text:

@@ -3,7 +3,7 @@
 Follow this script to record a professional, high-impact demo for your submission.
 
 ## 🕒 [0:00 - 0:10] - The Hook
-**Action**: Open your terminal in the `diff-whisperer` repo. Ensure you have some staged changes.
+**Action**: Open your terminal in the `diffwhisperer` repo. Ensure you have some staged changes.
 **Command**: 
 ```bash
 python main.py narrate --persona senior

@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/banner.png" alt="DiffWhisperer Banner" width="100%" />
+</p>
+
 # 📖 DiffWhisperer: AI-Powered Code Review Storyteller
 **Built for the Google Gemma 4 Challenge on DEV.**
 
@@ -147,4 +151,15 @@ MIT License - Created for the Google Gemma 4 Challenge.
 ---
 
 ### 🚀 Demo
-*(Insert your Demo GIF here! See the recording script below for inspiration.)*
+
+<p align="center">
+  <img src="assets/demo.png" alt="DiffWhisperer Terminal Demo" width="90%" />
+</p>
+
+<p align="center">
+  <a href="https://youtu.be/6lzHlom_P7Q" target="_blank">
+    <img src="https://img.youtube.com/vi/6lzHlom_P7Q/maxresdefault.jpg" alt="Watch DiffWhisperer Demo on YouTube" width="90%" />
+  </a>
+  <br>
+  <b>🎥 Click above to watch the full 60-Second Walkthrough on YouTube!</b>
+</p>
